@@ -1,35 +1,25 @@
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
-const uploadDir = process.env.UPLOAD_DIR || 'uploads';
-const fullPath = path.join(__dirname, '..', '..', uploadDir);
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-if (!fs.existsSync(fullPath)) {
-  fs.mkdirSync(fullPath, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, fullPath);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.originalname);
-    cb(null, uniqueSuffix + ext);
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'jewellery',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'],
+    transformation: [{ quality: 'auto', fetch_format: 'auto' }],
   },
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowedExt = /\.(jpeg|jpg|png|gif|webp|svg)$/i;
   const allowedMime = ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/x-png', 'image/gif', 'image/webp', 'image/svg+xml'];
-  const extOk = allowedExt.test(path.extname(file.originalname));
-  const mimeOk = allowedMime.includes(file.mimetype);
-  if (extOk && mimeOk) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only image files (jpg, png, gif, webp, svg) are allowed'));
-  }
+  cb(null, allowedMime.includes(file.mimetype));
 };
 
 const upload = multer({
