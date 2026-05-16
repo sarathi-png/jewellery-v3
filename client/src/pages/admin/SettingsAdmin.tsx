@@ -45,6 +45,20 @@ export default function AdminSettings() {
     finally { setUploading(false); }
   };
 
+  const handleAboutImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const res = await uploadAPI.uploadSingle(file);
+      setForm((prev: Record<string, unknown>) => ({ ...prev, aboutImage: res.data.data.url }));
+      toast.success('About banner uploaded');
+    } catch (err) {
+      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Upload failed';
+      toast.error(msg);
+    } finally { setUploading(false); }
+  };
+
   const [botStatus, setBotStatus] = useState<string>('disconnected');
   const [botQr, setBotQr] = useState<string | null>(null);
   const [botLastError, setBotLastError] = useState<string | null>(null);
@@ -148,7 +162,19 @@ export default function AdminSettings() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">About Description</label>
                 <textarea value={String((form as Record<string, unknown>).aboutDescription || '')} onChange={e => setForm((prev: Record<string, unknown>) => ({ ...prev, aboutDescription: e.target.value }))} rows={4} className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-amber-500 outline-none transition-colors" />
               </div>
-              {input('About Image URL', 'aboutImage')}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">About Banner Image</label>
+                {!!(form as Record<string, unknown>).aboutImage && (
+                  <img src={String((form as Record<string, unknown>).aboutImage)} alt="About Banner" className="w-full aspect-[4/3] object-cover mb-2 rounded-lg bg-gray-100" />
+                )}
+                <div className="flex items-center gap-2">
+                  <input type="text" value={String((form as Record<string, unknown>).aboutImage || '')} onChange={e => setForm((prev: Record<string, unknown>) => ({ ...prev, aboutImage: e.target.value }))} placeholder="About banner image URL" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-amber-500 outline-none transition-colors" />
+                  <label className="shrink-0 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-200 text-sm text-gray-600 dark:text-gray-300">
+                    {uploading ? '...' : 'Upload'}
+                    <input type="file" accept="image/*" onChange={handleAboutImageUpload} className="hidden" disabled={uploading} />
+                  </label>
+                </div>
+              </div>
               <div className="mb-4">
                 <label className="flex items-center gap-2 text-sm">
                   <input type="checkbox" checked={Boolean((form as Record<string, unknown>).showPrice)} onChange={e => setForm((prev: Record<string, unknown>) => ({ ...prev, showPrice: e.target.checked }))} className="rounded border-gray-300 text-amber-500 focus:ring-amber-500" />
