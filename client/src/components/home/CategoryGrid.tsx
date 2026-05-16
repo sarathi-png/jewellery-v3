@@ -44,7 +44,7 @@ export default function CategoryGrid() {
             <motion.div key={cat._id} variants={item}>
               <Link
                 to={`/products?category=${cat.slug}`}
-                className="group relative block aspect-square rounded-2xl overflow-hidden bg-gray-200"
+                className="group relative block aspect-square rounded-2xl overflow-hidden bg-gray-200 hover:scale-105 hover:rotate-[1deg] hover:shadow-2xl transition-transform duration-500"
               >
                 <img
                   src={getImageUrl(cat.image)}

@@ -10,7 +10,7 @@ export default function Badge({ children, variant = 'default', className }: Badg
   return (
     <span
       className={cn(
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
+        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium hover:animate-pulse hover:scale-[1.05] transition-transform duration-200',
         {
           'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200': variant === 'default',
           'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300': variant === 'gold',

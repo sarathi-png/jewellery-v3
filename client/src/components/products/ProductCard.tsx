@@ -65,7 +65,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       transition={{ delay: (index % 4) * 0.1 }}
     >
       <Link to={`/products/${product.slug}`} className="group block">
-        <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 mb-3">
+        <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 mb-3 hover:scale-105 hover:rotate-[2deg] hover:shadow-2xl transition-transform duration-300">
           <img
             src={getImageUrl(product.images?.[0])}
             alt={product.name}

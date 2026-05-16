@@ -36,13 +36,13 @@ export default function ImageGallery({ images, productName }: ImageGalleryProps)
             <>
               <button
                 onClick={(e) => { e.stopPropagation(); setSelectedIndex((prev) => (prev - 1 + images.length) % images.length); }}
-                className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 transition-colors"
+                className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 hover:scale-110 hover:rotate-[5deg] transition-all duration-200"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); setSelectedIndex((prev) => (prev + 1) % images.length); }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 hover:scale-110 hover:rotate-[-5deg] transition-all duration-200"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
