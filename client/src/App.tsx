@@ -41,7 +41,7 @@ export default function App() {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Luxury Jewels | Premium Fine Jewellery</title>
+        <title>Abirami Jewellery</title>
       </Helmet>
       <Routes>
         <Route path="/admin/login" element={<AdminLogin />} />

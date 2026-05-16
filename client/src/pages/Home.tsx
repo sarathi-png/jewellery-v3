@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>{settings?.shopName || 'Luxury Jewels'} | Premium Fine Jewellery</title>
+        <title>{settings?.shopName || 'Abirami Jewellery'}</title>
         <meta name="description" content={settings?.aboutDescription || 'Discover exquisite gold, diamond, silver and platinum jewellery collections.'} />
       </Helmet>
 
